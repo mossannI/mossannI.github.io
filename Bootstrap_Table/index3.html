@@ -1,0 +1,62 @@
+375x667 (Mobile M)(iPhone 8)
+<div class="border border-primary" style="width:375px; height: 667px;">
+	<div class="toolbar">
+		<button id="load" class="btn btn-danger">Load 152 Rows</button>
+		<button id="scroll" class=" btn btn-primary">scroll to 100 Rows</button>
+	</div>
+
+	<table id="table" data-toolbar=".toolbar" data-height="400" data-virtual-scroll="true" data-show-columns="true">
+		<thead>
+			<tr>
+				<th data-field="id">ID</th>
+				<th data-field="id2">ID2</th>
+				<th data-field="name">Item Name</th>
+				<th data-field="price">Item Price</th>
+			</tr>
+		</thead>
+	</table>
+</div>
+
+<script>
+	var $table = $('#table')
+
+	function getData(number) {
+		var data = []
+		for (var i = 1; i <= number; i++) {
+			data.push({
+				'id': i,
+				'id2': i,
+				'name': getName(i),
+				'price': '$' + i
+			})
+		}
+		return data
+	}
+
+	function getName(i) {
+		if ((i % 2) == 0) {
+			return "ああああAAAああああああ";
+		} else {
+			return "あああああああああ";
+		}
+	}
+
+	$(function () {
+		$table.bootstrapTable({
+			data: getData(152)
+		})
+		$table.bootstrapTable('resetView')
+
+		$('#load').click(function () {
+			$table.bootstrapTable('load', getData(152))
+			$table.bootstrapTable('resetView')
+		})
+
+		$('#scroll').click(function () {
+			$table.bootstrapTable('scrollTo', {
+				unit: 'rows',
+				value: 100
+			})
+		})
+	})
+</script>
