@@ -59,7 +59,7 @@
 					'price': '$' + i
 				})
 			}
-		}else{
+		} else {
 			//Error
 			for (var i = 0; i < number; i++) {
 				data.push({
@@ -75,7 +75,7 @@
 
 	$(function () {
 		$table.bootstrapTable({
-			data: getData(152,true)
+			data: getData(152, true)
 		})
 
 		$('#load').click(function () {
@@ -86,6 +86,9 @@
 			$table.bootstrapTable('load', getData(152, true))
 		})
 
+		$(window).resize(function () {
+			$table.bootstrapTable('resetView')
+		})
 	})
 </script>
 
