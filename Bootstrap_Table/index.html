@@ -15,14 +15,16 @@
 
 <body>
 	<div class="toolbar">
-		<button id="loadError" class="btn btn-danger">Load Error 152 Rows</button>
-		<button id="load" class="btn btn-success">Load Success 152 Rows</button>
+		<button id="loadError" class="btn btn-danger">Load Error 153 Rows</button>
+		<button id="load" class="btn btn-success">Load Success 153 Rows</button>
+		<button id="scroll"" class=" btn btn-primary">scroll to 100 Rows</button>
 	</div>
 
 	<table id="table" data-toolbar=".toolbar" data-height="400" data-virtual-scroll="true" data-show-columns="true">
 		<thead>
 			<tr>
 				<th data-field="id">ID</th>
+				<!-- <th data-field="id2">ID</th> -->
 				<th data-field="name">Item Name</th>
 				<th data-field="price">Item Price</th>
 			</tr>
@@ -47,33 +49,56 @@
 
 	function getData(number, isError) {
 		var data = []
-		if (!isError) {
-			//Success
-			for (var i = 0; i < number; i++) {
-				data.push({
-					'id': i,
-					//OK
-					//'name': "ああああAAあああ",
-					//OK
-					'name': "ああああああAAあああ",
-					'price': '$' + i
-				})
-			}
-		} else {
-			//Error
-			for (var i = 0; i < number; i++) {
-				data.push({
-					'id': i,
-					//NG
-					'name': "あああああAAあああ",
-					'price': '$' + i
-				})
-			}
+		for (var i = 1; i <= number; i++) {
+			data.push({
+				'id': i,
+				'id2': i,
+				'name': getName(isError, i),
+				'price': '$' + i
+			})
 		}
 		return data
 	}
 
+	var ViewPort_Width = window.innerWidth;
+
+	if(ViewPort_Width == 375){
+		$("[data-field='id']").after("<th data-field='id2'>ID</th>")
+		console.log($("th"))
+	}
+
+	function getName(isError, i) {
+		switch (ViewPort_Width) {
+			//Mobile S
+			case 320:
+				if (!isError) {
+					//OK
+					return "ああああああAAあああ";
+				} else {
+					//NG
+					return "あああああAAあああ";
+				}
+				break;
+				//Mobile M(iPhone8)
+			case 375:
+				if (!isError) {
+					//OK
+					return "ああああAAAああああああ";
+				} else {
+					//NG
+					if ((i % 2) == 0) {
+						return "ああああAAAああああああ";
+					} else {
+						return "あああああああああ";
+					}
+				}
+				break;
+
+		}
+	}
+
 	$(function () {
+
 		$table.bootstrapTable({
 			data: getData(152, true)
 		})
@@ -84,6 +109,13 @@
 
 		$('#loadError').click(function () {
 			$table.bootstrapTable('load', getData(152, true))
+		})
+
+		$('#scroll').click(function () {
+			$table.bootstrapTable('scrollTo', {
+				unit: 'rows',
+				value: 100
+			})
 		})
 
 		$(window).resize(function () {
